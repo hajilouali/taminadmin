@@ -1,0 +1,358 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white"> در حال بارگزاری... </p>
+</ngx-spinner>
+<p-toast></p-toast>
+
+<p-dialog (onHide)="onHidedialog()" header="{{Selectuser.fullName}}" [(visible)]="display" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{width: '70vw'}">
+  <p-tabView dir="rtl">
+    <p-tabPanel header="نقش کاربر">
+      <div class="row">
+        <div class="col-md-6">
+          <p-selectButton name="rollName" [options]="types" [(ngModel)]="Selectuser.rollName" multiple="multiple">
+          </p-selectButton>
+        </div>
+        <div class="col-md-6">
+          <button pButton type="button" label="ذخیره" class="ui-button-success" (click)="RollSave()"></button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="first">وضعیت کاربر - {{Selectuser.isActive?'فعال':'غیره فعال'}}</h3><br>
+
+        </div>
+        <div class="col-md-6">
+          <p-inputSwitch name="staus" [(ngModel)]="Selectuser.isActive" (onChange)="Changestatus($event)">
+          </p-inputSwitch>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="کارکنان">
+      <p-table [value]="userEmployee" #employee [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true"
+        currentPageReportTemplate="مشاهده {first} تا {last} از {totalRecords} کاربر" [filterDelay]="0">
+        <ng-template pTemplate="caption">
+          <div class="ui-table-globalfilter-container">
+            <input pInputText type="text" (input)="employee.filterGlobal($event.target.value, 'contains')"
+              placeholder="جستجو در لیست کارمندان" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>نام و نام خانوادگی</th>
+            <th>شماره ملی</th>
+            <th>شماره بیمه</th>
+            <th>شغل</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+          <tr>
+            <td>{{car.dsW_FNAME}} {{car.dsW_LNAME}}</td>
+            <td>{{car.peR_NATCOD}}</td>
+            <td>{{car.dsW_ID1}}</td>
+            <td>{{car.jobs.dsW_OCP}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="کارگاه ها">
+      <p-table [value]="usermanufacture" #manufactore [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true"
+        currentPageReportTemplate="مشاهده {first} تا {last} از {totalRecords} کاربر" [filterDelay]="0">
+        <ng-template pTemplate="caption">
+          <div class="ui-table-globalfilter-container">
+            <input pInputText type="text" (input)="employee.filterGlobal($event.target.value, 'contains')"
+              placeholder="جستجو در لیست کارگاهها" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>نام کارگاه</th>
+            <th>نام کارفرما</th>
+            <th>کد کارگاه</th>
+            <th>ردیف پیمان</th>
+            <th>نرخ بیمه</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+          <tr>
+            <td>{{car.dsK_NAME}} </td>
+            <td>{{car.dsK_FARM}}</td>
+            <td>{{car.dsK_ID}}</td>
+            <td>{{car.moN_PYM}}</td>
+            <td>{{car.dsK_RATE}}</td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="گردش حساب">
+      <p-table [value]="UserAccounting" #accounting [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" sortField="dateTime" sortOrder="1"
+        currentPageReportTemplate="مشاهده {first} تا {last} از {totalRecords} کاربر" [filterDelay]="0">
+        <ng-template pTemplate="caption">
+          <div class="ui-table-globalfilter-container">
+            <input pInputText type="text" (input)="employee.filterGlobal($event.target.value, 'contains')"
+              placeholder="جستجو در لیست تراکنس ها" />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="dateTime" style="width: 20%;">تاریخ <p-sortIcon field="dateTime"></p-sortIcon></th>
+            <th style="width: 40%;">توضیحات</th>
+            <th style="width: 10%;">بدهکار</th>
+            <th style="width: 10%;">بستانکار</th>
+            <th style="width: 10%;">مانده</th>
+            <th style="width: 10%;">وضعیت</th>
+
+          </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+          <tr>
+            <td>{{car.dateTime|persianDate}} {{car.dateTime|date:'HH:mm'}}</td>
+            <td>{{car.discription}}</td>
+            <td>{{car.bedehkari|irc}}</td>
+            <td>{{car.bestankar|irc}}</td>
+            <td>{{car.sum|irc}}</td>
+            <td>{{(car.sum) >0 ? 'بستانکاری': (car.sum) <0 ? 'بدهکاری': '--'}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="کیف پول">
+      <div class="row">
+        <div class="col-md-7">
+          <p-table [value]="UserPayMentHistory"  >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 26%;font-size: 16px;">تاریخ</th>
+                <th style="width: 20%;font-size: 14px;">مبلغ</th>
+                <th style="width: 28%;font-size: 14px;">کد رهگیری سایت</th>
+                <th style="width: 10%;font-size: 10px;">وضعیت</th>
+                <th style="width: 15%;font-size: 14px;">درگاه</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td style="font-size: 12px;"> {{item.dateTime|persianDate}} {{item.dateTime|date:'HH:mm'}}</td>
+                <td style="font-size: 12px;">{{item.price|number}}</td>
+                <td style="font-size: 12px;"><span>{{item.trackingnumber}}</span></td>
+                <td *ngIf="item.isSucess" style="font-size: 12px;"><span class="badge badge-success">موفق</span></td>
+                <td *ngIf="!item.isSucess" style="font-size: 12px;"><span class="badge badge-warning">ناموفق</span></td>
+
+                <td style="font-size: 12px;">{{item.gateway}}</td>
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <div *ngIf="Selectuser" class="col-md-5">
+          <div class="card">
+            <div class="card-header">
+              <h3 >مانده کیف پول</h3>
+
+            </div>
+            <div class="card-body">
+              <h4 >{{Selectuser.userWallet|irc}}</h4>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h4>شارژ موجودی </h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">مبلغ به ريال</label><br>
+                <p-inputNumber #sharkprice name="Price" styleClass="form-control"
+                  value="" ></p-inputNumber>
+              </div>
+              <div class="form-group mb-0">
+                <button type="button" class="mt-2 btn btn-block btn-primary mt-1 mb-1" (click)="Sharjaccount(sharkprice.value)">شارژ
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="تیکت ها">
+      <p-table #dttikets [value]="usertikets" selectionMode="single"  [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+      currentPageReportTemplate="از {first} تا {last} (تعداد کل:{totalRecords})">
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="ui-table-globalfilter-container col-md-4">
+            <input class="form-control " pInputText type="text"
+              (input)="dttikets.filterGlobal($event.target.value, 'contains')" placeholder="جستجو" />
+          </div>
+
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 7%;">شماره تیکت</th>
+          <th style="width: 40%;">عنوان</th>
+          <th style="width: 10%;">اولویت</th>
+          <th style="width: 8%;">وضعیت </th>
+          <th style="width: 12%;">ارسال</th>
+          <th style="width: 12%;">آخرین فعالیت</th>
+          <th style="width: 8%;"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-car>
+        <tr>
+          <td>{{car.id}}</td>
+          <td>{{car.title}}</td>
+          <td *ngIf="car.level===1"><span class="badge badge-pill badge-default">عادی</span></td>
+          <td *ngIf="car.level===2"><span class="badge badge-pill badge-danger">مهم</span></td>
+          <td *ngIf="car.level===3"><span class="badge badge-pill badge-warning">خیلی مهم</span></td>
+          <td *ngIf="car.isAdminSide">
+            <span class="badge badge-success">پاسخ داده شده</span>
+          </td>
+          <td *ngIf="!car.isAdminSide">
+            <span class="badge badge-info">در انتظار پاسخ</span>
+
+          </td>
+          <td>{{car.dataCreate|persianTimeAgo}}</td>
+          <td>{{car.dataModified|persianTimeAgo}}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-search-plus"  tooltipPosition="top" pTooltip="مشاهده و پاسخ"></button>
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    </p-tabPanel>
+  </p-tabView>
+</p-dialog>
+<div class="card shadow overflow-hidden">
+  <div class="row">
+
+
+    <p-table #dt [value]="users" selectionMode="single" [(selection)]="Selectuser" dataKey="id"
+      (onRowSelect)="EditeEmploye($event)" styleClass="ui-table-customers" [rows]="10" [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true"
+      currentPageReportTemplate="مشاهده {first} تا {last} از {totalRecords} کاربر" [filterDelay]="0"
+      [globalFilterFields]="['fullName','rollName','userPhone','isActive']">
+      <ng-template pTemplate="caption">
+
+        <div class="ui-table-globalfilter-container">
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+            placeholder="جستجو در لیست کاربران" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th pSortableColumn="name" class="text-center">نام کاربر <p-sortIcon field="fullName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="country.name" class="text-center">شماره تماس <p-sortIcon field="userPhone"></p-sortIcon>
+          </th>
+          <th pSortableColumn="representative.name" class="text-center">نقش کاربر <p-sortIcon field="rollName">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="date" class="text-center">وضعیت <p-sortIcon field="isActive"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" class="text-center">موجودی کیف پول <p-sortIcon field="userWallet"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activity" class="text-center">تعداد لیست <p-sortIcon field="listCount"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+
+          <th class="text-center">
+            <input pInputText [style]="{'width':'60%','min-width': '70%'}" type="text"
+              (input)="dt.filter($event.target.value, 'fullName', 'contains')" placeholder="جستجو با نام"
+              class="ui-column-filter">
+          </th>
+          <th class="text-center">
+            <input pInputText [style]="{'width':'60%','min-width': '70%'}" type="text"
+              (input)="dt.filter($event.target.value, 'userPhone', 'contains')" placeholder="جستجو با شماره تماس"
+              class="ui-column-filter">
+          </th>
+          <th>
+            <!-- <p-multiSelect  [options]="representatives" placeholder="همه" (onChange)="dt.filter($event.value, 'rollName', 'in')"
+              styleClass="ui-column-filter" optionLabel="roll">
+              <ng-template let-option pTemplate="label">
+                <div class="">
+                  <span>{{option.label}}</span>
+                </div>
+              </ng-template>
+            </p-multiSelect> -->
+          </th>
+          <th>
+            <!-- <p-dropdown [options]="brands" [style]="{'width':'60%','min-width': '50%'}" optionLabel="label"
+              (onChange)="activitiychange($event.value)">
+              <ng-template let-item pTemplate="selectedItem">
+                <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+              </ng-template>
+              <ng-template let-car pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                  <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown> -->
+          </th>
+          <th>
+            <input pInputText type="number" [style]="{'width':'60%','min-width': '80%'}"
+              (input)="dt.filter($event.target.value, 'userWallet', 'gt')" placeholder="موجودی بیشتر از"
+              class="ui-column-filter">
+          </th>
+          <th>
+            <input pInputText type="number" [style]="{'width':'60%','min-width': '80%'}"
+              (input)="dt.filter($event.target.value, 'listCount', 'equals')" placeholder="تعداد لیست"
+              class="ui-column-filter">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-customer>
+        <tr [pSelectableRow]="rowData" style="font-family: iranSans;">
+
+          <td class="text-center">
+            <div *ngIf="customer.userImage" class="d-inline m-widget4__img m-widget4__img--pic">
+              <img [alt]="customer.fullName" src="{{appConfig.apiEndpoint + customer.userImage}}" class="img-thumbnail"
+                width="50" />
+
+            </div>
+            <div class="d-inline">
+              {{customer.fullName}}
+            </div>
+
+          </td>
+
+          <td class="text-center">
+            {{customer.userPhone}}
+          </td>
+          <td class="text-center">
+            <!-- <div class="card-body"> -->
+            <span *ngIf="customer.rollName.indexOf('Admin') > -1" class="badge badge-danger">مدیر</span>
+            <span *ngIf="customer.rollName.indexOf('User') > -1" class="badge badge-default">کاربر</span>
+            <span *ngIf="customer.rollName.indexOf('Partner') > -1" class="badge badge-info">همکار</span>
+            <!-- </div> -->
+
+          </td>
+          <td class="text-center">
+            <span *ngIf="customer.isActive" class="badge badge-lg badge-pill badge-success">کاربر فعال</span>
+            <span *ngIf="!customer.isActive" class="badge badge-lg badge-pill badge-warning">فعال نشده</span>
+
+          </td>
+          <td class="text-center">
+            {{customer.userWallet|irc}}
+          </td>
+          <td class="text-center">
+            <span [class]="'customer-badge status-' + customer.listCount">{{customer.listCount}}</span>
+          </td>
+
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8" style="text-align:left">No customers found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+</div>

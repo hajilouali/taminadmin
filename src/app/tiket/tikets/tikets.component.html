@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-body">
+    <p-table #dttikets [value]="Tikets" [lazy]="true" (onLazyLoad)="loadCustomers($event)" [paginator]="true" [rows]="5"
+      [totalRecords]="totalRecords" [loading]="loading">
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="ui-table-globalfilter-container col-md-4">
+            <input class="form-control " pInputText type="text"
+              (input)="dttikets.filterGlobal($event.target.value, 'contains')" placeholder="جستجو" />
+          </div>
+
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center" style="width: 7%;">شماره تیکت</th>
+          <th class="text-center" style="width: 40%;">عنوان</th>
+          <th class="text-center" style="width: 10%;">کاربر</th>
+          <th class="text-center" style="width: 8%;">وضعیت</th>
+          <th class="text-center" style="width: 10%;">اولویت</th>
+          <th class="text-center" style="width: 12%;">تاریخ ایجاد</th>
+          <th class="text-center" style="width: 12%;">بروزرسانی</th>
+          <th class="text-center" style="width: 5%;" ></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td class="text-center">{{customer.id}}</td>
+          <td>{{customer.title}}</td>
+          <td class="text-center">{{customer.user}}</td>
+          <td class="text-center" *ngIf="customer.isAdminSide">
+            <span class="badge badge-success">پاسخ داده شده</span>
+          </td>
+          <td class="text-center" *ngIf="!customer.isAdminSide">
+            <span class="badge badge-info">در انتظار پاسخ</span>
+
+          </td>
+          <td class="text-center" *ngIf="customer.level===1"><span class="badge badge-pill badge-default">عادی</span></td>
+          <td class="text-center" *ngIf="customer.level===2"><span class="badge badge-pill badge-danger">مهم</span></td>
+          <td class="text-center" *ngIf="customer.level===3"><span class="badge badge-pill badge-warning">خیلی مهم</span></td>
+          <td class="text-center">{{customer.dataCreate|persianTimeAgo}}</td>
+          <td class="text-center">{{customer.dataModified|persianTimeAgo}}</td>
+          <td class="text-center">
+            <button pButton type="button" icon="pi pi-search-plus" (click)="TikectContentView(customer.id)" tooltipPosition="top" pTooltip="مشاهده و پاسخ"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

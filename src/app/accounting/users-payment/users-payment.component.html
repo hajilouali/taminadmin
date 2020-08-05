@@ -1,0 +1,108 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5">
+        <input type="text" #datestart name="datestart" id="date-start" [(ngModel)]="dto.startDate" class="form-control">
+      </div>
+      <div class="col-md-5">
+        <input type="text" #dateend name="dateend" id="date-end" [(ngModel)]="dto.endDate" class="form-control">
+      </div>
+      <div class="dol-md-2">
+        <button class="btn btn-success btn-block" (click)="submitfilter(datestart.value,dateend.value)">فیلتر</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <p-table #paymenttab [columns]="cols" [value]="result" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10,25,50]" currentPageReportTemplate="مشاهده {first} تا {last} از {totalRecords} پرداخت"
+      [filterDelay]="0" [globalFilterFields]="['username','price','gateway','trackingnumber','transactioncode']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+          <button type="button" pButton pRipple icon="pi pi-file-o" (click)="paymenttab.exportCSV()" class="p-mr-2"
+            pTooltip="CSV" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+            class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+            class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+          <button type="button" pButton pRipple icon="pi pi-filter" (click)="paymenttab.exportCSV({selectionOnly:true})"
+            class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="ui-table-globalfilter-container">
+              <input pInputText type="text" (input)="paymenttab.filterGlobal($event.target.value, 'contains')"
+                placeholder="جستجو در لیست تراکنس ها" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            پرداختی موفق :{{total|irc}}
+          </div>
+          <div class="col-md-4">
+            پرداختی ناموفق :{{faild|irc}}
+          </div>
+        </div>
+
+      </ng-template>
+      <!-- <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">کاربر</th>
+          <th class="text-center">مبلغ</th>
+          <th class="text-center" style="width: 10%;">درگاه</th>
+          <th class="text-center" style="width: 7%;">وضعیت</th>
+          <th class="text-center">تاریخ</th>
+          <th class="text-center">کد رهگیری سایت</th>
+          <th class="text-center">رهگیری بانک</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText type="text" class="form-control" (input)="paymenttab.filter($event.target.value, 'username', 'contains')" placeholder="نام کاربر را جستجو کنید" class="p-column-filter">
+                </th>
+
+          <th>
+            <p-inputNumber styleClass="form-control"
+              (input)="paymenttab.filter($event.target.value, 'price', 'contains')"></p-inputNumber>
+          </th>
+          <th>
+            <p-dropdown [options]="users" [style]="{'width':'100%','min-width': '80%'}"></p-dropdown>
+          </th>
+          <th>
+            <p-dropdown [options]="users" [style]="{'width':'100%','min-width': '80%'}"></p-dropdown>
+          </th>
+          <th> </th>
+          <th>
+            <input pInputText type="text" pInputText class="form-control"
+              (input)="paymenttab.filter($event.target.value, 'trackingnumber', 'contains')"
+              placeholder="جستجو کد رهگیری">
+          </th>
+          <th>
+            <input pInputText type="text" pInputText class="form-control"
+              (input)="paymenttab.filter($event.target.value, 'transactioncode', 'contains')"
+              placeholder="جستجو کد رهگیری">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td class="text-center">{{customer.username}}</td>
+          <td class="text-center">{{customer.price|irc}}</td>
+          <td class="text-center">{{customer.gateway}}</td>
+          <td *ngIf="customer.isSucess" style="font-size: 12px;"><span class="badge badge-success">موفق</span></td>
+          <td *ngIf="!customer.isSucess" style="font-size: 12px;"><span class="badge badge-warning">ناموفق</span></td>
+          <td class="text-center">{{customer.dateTime|persianDate}}</td>
+          <td class="text-center">{{customer.trackingnumber}}</td>
+          <td class="text-center">{{customer.transactioncode}}</td>
+
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

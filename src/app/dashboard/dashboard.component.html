@@ -1,0 +1,70 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white"> در حال بارگزاری... </p>
+</ngx-spinner>
+
+<div class="card shadow overflow-hidden">
+  <div class="">
+    <div class="row">
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-money-bill mr-2"></i>
+            کیف پول
+          </p>
+          <h2 class="text-primary text-xxl">{{userdio.userWallet|irc}}</h2>
+          <a [routerLink]="['/Wallet']"   class="btn btn-outline-primary btn-pill btn-sm">افزایش اعتبار</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-boxes mr-2"></i>
+            کارگاه ها
+          </p>
+          <h2 class="text-yellow text-xxl">{{userdio.manufacturyCount}} عدد</h2>
+          <a [routerLink]="['/ManufactureList']" class="btn btn-outline-yellow btn-pill btn-sm">مدیریت کارگاه ها</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-users mr-2"></i>
+            کارکنان
+          </p>
+          <h2 class="text-warning text-xxl">{{userdio.emplyeCount}} عدد</h2>
+          <a [routerLink]="['/EmployeeList']" class="btn btn-outline-warning btn-pill btn-sm">مدیریت کارکنان</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-book-reader mr-2"></i>
+            لیست ها
+          </p>
+          <h2 class="text-danger text-xxl">{{userdio.listCount}} عدد</h2>
+          <a [routerLink]="['/ListDisk']" class="btn btn-outline-danger btn-pill btn-sm">مدیریت لیست ها</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-comment-alt mr-2"></i>
+            تیکت ها
+          </p>
+          <h2 class="text-success text-xxl">{{userdio.tiketCount}}</h2>
+          <a [routerLink]="['/TiketList']" class="btn btn-outline-success btn-pill btn-sm">مشاهده تیکت ها</a>
+        </div>
+      </div>
+      <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 stats">
+        <div class="text-center">
+          <p class="text-light">
+            <i class="fas fa-comment-dots mr-2"></i>
+           تیکت های باز
+          </p>
+          <h2 class="text-primary text-xxl">{{userdio.tiketPendingCount}}</h2>
+          <a [routerLink]="['/TiketList']" class="btn btn-outline-primary btn-pill btn-sm">مشاهده تیکت ها</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

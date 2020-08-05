@@ -21,12 +21,52 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/env.js",
+              "src/localization",
+              "src/scripts",
+              "src/reports",
+              "src/scripts/stimulsoft.reports.js",
+              "src/scripts/stimulsoft.viewer.js"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "src/styles.css",
+              "src/assets/css/icons.css",
+              "src/assets/plugins/bootstrap/css/bootstrap.min.css",
+              "src/assets/css/bootstrap-rtl.min.css",
+              "src/assets/css/dashboard.css",
+              "src/assets/plugins/tabs/style.css",
+              "src/assets/plugins/jvectormap/jquery-jvectormap-2.0.2.css",
+              "src/assets/plugins/customscroll/jquery.mCustomScrollbar.css",
+              "src/assets/plugins/toggle-sidebar/horizontal-menu/dropdown-effects/fade-down.css",
+              "src/assets/plugins/toggle-sidebar/horizontal-menu/webslidemenu.css",
+              "src/assets/plugins/single-page/css/main.css",
+              "src/assets/css/boxedcss.css",
+              "src/assets/css/kamadatepicker.min.css",
+              "node_modules/primeflex/primeflex.css",
+              "src/scripts/stimulsoft.viewer.office2013.whiteblue.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/popper.js",
+              "src/assets/plugins/bootstrap/js/bootstrap.min.js",
+              "src/assets/plugins/peitychart/jquery.peity.min.js",
+              "src/assets/plugins/peitychart/peitychart.init.js",
+              "src/assets/js/kamadatepicker.min.js",
+              "src/assets/js/headerfix.js",
+              "src/assets/js/ali.js",
+              "src/assets/plugins/datatable/jquery.dataTables.min.js",
+              "src/assets/plugins/datatable/dataTables.bootstrap4.min.js",
+              "src/assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js",
+              "src/assets/js/wizard.js",
+              "src/assets/plugins/toggle-sidebar/js/sidemenu.js",
+              "src/scripts/stimulsoft.reports.js",
+              "src/scripts/stimulsoft.viewer.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -119,6 +159,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "adminpanel"
+    }
+  },
+  "defaultProject": "adminpanel",
+  "cli": {
+    "analytics": "119ce235-2549-499b-aeae-980bc295e81b"
+  }
 }
